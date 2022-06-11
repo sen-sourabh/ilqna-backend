@@ -1,7 +1,7 @@
-const mongoose = require("mongoose")
-const { Schema } = mongoose
+import mongoose from 'mongoose'
+import { UserType } from './userEnum'
 
-const usersSchema = new Schema({
+const usersSchema = new mongoose.Schema({
     name: {
         required: true,
         type: String
@@ -11,9 +11,18 @@ const usersSchema = new Schema({
         unique: true,
         type: String
     },
+    phone: {
+        required: true,
+        unique: true,
+        type: Number
+    },
     password: {
         required: true,
         type: String
+    },
+    otp: {
+        required: true,
+        type: Number
     },
     image: {
         required: false,
@@ -21,6 +30,7 @@ const usersSchema = new Schema({
     },
     userType: {
         required: true,
+        default: UserType.USER,
         type: String
     },
     createdDate: {
