@@ -2,10 +2,10 @@
   "name": "qna",
   "version": "1.0.0",
   "description": "This is the qna.",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon src/app.js",
+    "test": "test"
   },
   "keywords": [
     "qna"
@@ -16,8 +16,10 @@
     "body-parser": "^1.20.0",
     "express": "^4.18.1",
     "mongoose": "^6.3.5",
-    "nodemon": "^2.0.16",
     "swagger-jsdoc": "^6.2.1",
     "swagger-ui-express": "^4.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16,"
   }
 }

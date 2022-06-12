@@ -1,19 +1,29 @@
 const mongoose = require("mongoose")
-const { Schema } = mongoose
+const { Schema } = mongoose;
+// const { UserType } = require("./userEnum")
 
 const usersSchema = new Schema({
-    name: {
+    username: {
         required: true,
         type: String
     },
     email: {
-        required: true,
+        required: false,
         unique: true,
         type: String
+    },
+    phone: {
+        required: false,
+        unique: true,
+        type: Number
     },
     password: {
         required: true,
         type: String
+    },
+    otp: {
+        required: false,
+        type: Number
     },
     image: {
         required: false,
@@ -21,6 +31,7 @@ const usersSchema = new Schema({
     },
     userType: {
         required: true,
+        default: "USER",
         type: String
     },
     createdDate: {
