@@ -1,4 +1,4 @@
-export let UserType = {
-    ADMIN,
-    USER
-};
+// export let UserType = {
+//     ADMIN,
+//     USER
+// };
