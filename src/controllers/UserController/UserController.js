@@ -1,17 +1,16 @@
-const Users = require("../../models/Users/Users")
+const userServices = require("../../services/UserServices");
 
 exports.getAllUsers = async (req, res, next) => {
-    await Users.find().then((response) => {
-        res.send(response)
-    }).catch((error) => {
-        console.log(error)
-    });
+    const result = await userServices.getAllUsers();
+    res.send(result);
 };
 
 exports.addUser = async (req, res, next) => {
-    let user = req.body;
-    const newUser = new Users(user)
-    const addedUser = await newUser.save()
-                        .then((response) => { res.send(response) })
-                        .catch((error) => { res.status(400).send(error.message) });
+    const result = await userServices.addUser(req.body);
+    res.send(result);
+};
+
+exports.updateUser = async (req, res, next) => {
+    const result = await userServices.updateUser(req.body._id, req.body);
+    res.send(result);
 };
