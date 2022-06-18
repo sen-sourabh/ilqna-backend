@@ -1,29 +1,19 @@
 const nodemailer = require("nodemailer")
 
 exports.sendMail = async (useremail, subject, body) => {
-    let smtpConfig = {
-        host: 'https://mail.google.com',
-        port: 465,
-        secure: true,
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.ethereal.email',
+        port: 587,
         auth: {
-            user: 'sourabhsen201313@gmail.com',
-            pass: 'Nbe!9969'
+            user: 'eri6ovx53ykebqub@ethereal.email',
+            pass: 'FAhVW1E6Y1NAN1WgJs'
         }
-    };
-    let transporter = nodemailer.createTransport(smtpConfig);
-    let options = {
+    });
+    let info = await transporter.sendMail({
         from: "sourabhsen201313@gmail.com",
         to: useremail,
         subject: subject,
         html: `<div>Hello Dear, <br><p>`+ body +`</p><br><br><p>Thanks & Regards,<br>Q&A</p></div>`
-    }
-    console.log("mail: ", options)
-    await transporter.sendMail(options, (error, info) => {
-        if(error) {
-            console.log(error) 
-        } else {
-            console.log(info);
-            // res.send("Mail Send")
-        }
-    })
+    });
+    return info;
 }
