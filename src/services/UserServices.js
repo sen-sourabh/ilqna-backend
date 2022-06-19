@@ -2,7 +2,7 @@ const Users = require("../models/Users/Users")
 const mail = require("../config/mailer/mailer")
 
 exports.getAllUsers = async () => {
-    return await Users.find();
+    return await Users.find({ deleted: false });
 };
 
 exports.addUser = async (newUser) => {
@@ -61,12 +61,12 @@ exports.updateUser = async (_id, editUser) => {
     return await Users.findByIdAndUpdate(_id, { $set: editUser }).then(async (response) => {
         if(response._id) {
             let res;
-            return await Users.find({ _id: response._id }).then((res) => {
+            return await Users.find({ _id: response._id }).then((result) => {
                 res = [{
                     code: 200,
                     status: "OK",
                     message: "User updated successfully.",
-                    data: res
+                    data: result
                 }];
                 return res;
             }).catch((error) => {
@@ -76,8 +76,7 @@ exports.updateUser = async (_id, editUser) => {
                     message: error.message
                 }];
                 return res;
-            })
-            
+            });
         }
     }).catch((error) => {
         let res = [{

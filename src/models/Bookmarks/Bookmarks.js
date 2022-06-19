@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require("mongoose")
 const { Schema } = mongoose;
 
 const bookmarksSchema = new Schema({
@@ -32,4 +32,4 @@ const bookmarksSchema = new Schema({
     }
 });
 
-module.exports = mongoose.module("Bookmarks", bookmarksSchema);
+module.exports = mongoose.model("Bookmarks", bookmarksSchema);

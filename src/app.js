@@ -7,9 +7,13 @@ connectDB();
 
 //import Routes
 const userRouters = require("./routers/users")
+const questionRouters = require("./routers/questions")
+const categoryRouters = require("./routers/categories")
 
 //declared Routes
 app.use("/users", userRouters)
+app.use("/questions", questionRouters)
+app.use("/categories", categoryRouters)
 
 
 app.listen(3000, () => {

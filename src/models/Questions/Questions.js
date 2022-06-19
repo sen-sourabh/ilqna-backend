@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require("mongoose")
 const { Schema } = mongoose;
 
 const questionsSchema = new Schema({
@@ -51,7 +51,15 @@ const questionsSchema = new Schema({
         required: true,
         default: true,
         type: Boolean
+    },
+    ipAddress: {
+        required: true,
+        type: String
+    },
+    location: {
+        required: true,
+        type: String
     }
 });
 
-module.exports = mongoose.module("Questions", questionsSchema);
+module.exports = mongoose.model("Questions", questionsSchema);
