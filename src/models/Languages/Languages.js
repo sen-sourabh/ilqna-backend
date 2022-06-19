@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require("mongoose")
 const { Schema } = mongoose;
 
 const languagesSchema = new Schema({
@@ -28,4 +28,4 @@ const languagesSchema = new Schema({
     }
 });
 
-module.exports = mongoose.module("Languages", languagesSchema);
+module.exports = mongoose.model("Languages", languagesSchema);
