@@ -5,8 +5,8 @@ exports.getAllQuestions = async () => {
     return await Questions.find({ deleted: false });
 };
 
-exports.addQuestion = async (newQuestion) => {
-    await new Questions(newQuestion).save()
+exports.addQuestion = async (newQuestion, useremail="sourabhsen201313@gmail.com") => {
+    return await new Questions(newQuestion).save()
         .then(async (response) => {
             let res;
             if(response._id) {
@@ -17,13 +17,13 @@ exports.addQuestion = async (newQuestion) => {
                                 Your wanna know about: <br>
                                 `+ response.question +` <br>
                             </div>`;
-                return await mail.sendMail(resp.email, subject, body).then((sentMail) => {
+                return await mail.sendMail(useremail, subject, body).then((sentMail) => {
                     if(sentMail.messageId) {
                         res = [{
                             code: 200,
                             status: "OK",
                             message: "Question added successfully. You've received a confirmation email.",
-                            data: resp
+                            data: response
                         }];
                         return res;
                     } else {
@@ -31,7 +31,7 @@ exports.addQuestion = async (newQuestion) => {
                             code: 200,
                             status: "OK",
                             message: "Question added successfully.",
-                            data: resp
+                            data: response
                         }];
                         return res;
                     }
@@ -52,4 +52,78 @@ exports.addQuestion = async (newQuestion) => {
             }];
             return res; 
         });
+};
+
+exports.updateQuestion = async (_id, editQuestion) => {
+    delete editQuestion._id;
+    return await Questions.findByIdAndUpdate(_id, editQuestion)
+        .then(async (response) => {
+            let res;
+            if(response._id) {
+                return await Questions.findById({ _id: response._id }).then((result) => {
+                    res = [{
+                        code: 200,
+                        status: "OK",
+                        message: "Question updated successfully.",
+                        data: result
+                    }];
+                    return res;
+                }).catch((error) => {
+                    res = [{
+                        code: 100,
+                        status: "ERROR",
+                        message: error.message
+                    }];
+                    return res;
+                });
+            }
+        }).catch((error) => { 
+            let res = [{
+                code: 100,
+                status: "ERROR",
+                message: error.message
+            }];
+            return res; 
+        });
+};
+
+exports.updateCategory = async (_id, body) => {
+    const category = await Categories.find({ categoryName: body.categoryName });
+    if(category.length === 0) {
+        return await Categories.findByIdAndUpdate(_id, body)
+            .then(async (response) => {
+                let res;
+                if(response._id) {
+                    return await Categories.findById({ _id: response._id }).then((result) => {
+                        res = [{
+                            code: 200,
+                            status: "OK",
+                            message: "Category updated successfully.",
+                            data: result
+                        }];
+                        return res;
+                    }).catch((error) => {
+                        res = [{
+                            code: 100,
+                            status: "ERROR",
+                            message: error.message
+                        }];
+                        return res;
+                    });
+                }
+            }).catch((error) => {
+                let res = [{
+                    code: 100,
+                    status: "ERROR",
+                    message: error.message
+                }];
+                return res;
+            });
+    } else {
+        return [{
+            code: 300,
+            status: "OK",
+            message: "Category already exist."
+        }];
+    }
 };
