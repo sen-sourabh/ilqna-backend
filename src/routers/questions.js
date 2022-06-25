@@ -1,9 +1,9 @@
 const express = require("express")
-const userController = require("../controllers/QuestionController/QuestionController")
+const questionController = require("../controllers/QuestionController/QuestionController")
 const router = express.Router()
 
-router.get("/getAllQuestions", userController.getAllQuestions)
-router.post("/addQuestion", userController.addQuestion)
-// router.put("/updateQuestion", userController.updateQuestion)
+router.get("/getAllQuestions", questionController.getAllQuestions)
+router.post("/addQuestion", questionController.addQuestion)
+router.put("/updateQuestion", questionController.updateQuestion)
 
 module.exports = router;

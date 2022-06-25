@@ -10,18 +10,18 @@ const questionsSchema = new Schema({
         required: false,
         type: String
     },
-    categoryId: [{
+    categoryId: {
         type: Schema.Types.ObjectId,
         ref: 'Categories'
-    }],
-    languageId: [{
+    },
+    languageId: {
         type: Schema.Types.ObjectId,
         ref: 'Languages'
-    }],
-    questionUserId: [{
+    },
+    questionUserId: {
         type: Schema.Types.ObjectId,
         ref: 'Users'
-    }],
+    },
     posted: {
         required: true,
         default: true,

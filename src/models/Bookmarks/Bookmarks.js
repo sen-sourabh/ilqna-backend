@@ -2,14 +2,14 @@ const mongoose = require("mongoose")
 const { Schema } = mongoose;
 
 const bookmarksSchema = new Schema({
-    userId: [{
+    userId: {
         type: Schema.Types.ObjectId,
         ref: 'Users'
-    }],
-    questionId: [{
+    },
+    questionId: {
         type: Schema.Types.ObjectId,
         ref: 'Questions'
-    }],
+    },
     createdDate: {
         required: true,
         default: new Date().toISOString(),
