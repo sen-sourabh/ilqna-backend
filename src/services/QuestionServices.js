@@ -108,45 +108,5 @@ exports.updateQuestion = async (_id, editQuestion) => {
             }];
             return res; 
         });
-};
-
-exports.updateCategory = async (_id, body) => {
-    const category = await Categories.find({ categoryName: body.categoryName });
-    if(category.length === 0) {
-        return await Categories.findByIdAndUpdate(_id, body)
-            .then(async (response) => {
-                let res;
-                if(response._id) {
-                    return await Categories.findById({ _id: response._id }).then((result) => {
-                        res = [{
-                            code: 200,
-                            status: "OK",
-                            message: "Category updated successfully.",
-                            data: result
-                        }];
-                        return res;
-                    }).catch((error) => {
-                        res = [{
-                            code: 100,
-                            status: "ERROR",
-                            message: error.message
-                        }];
-                        return res;
-                    });
-                }
-            }).catch((error) => {
-                let res = [{
-                    code: 100,
-                    status: "ERROR",
-                    message: error.message
-                }];
-                return res;
-            });
-    } else {
-        return [{
-            code: 300,
-            status: "OK",
-            message: "Category already exist."
-        }];
-    }
-};
+    };
+    
