@@ -1,8 +1,31 @@
 const Questions = require("../models/Questions/Questions");
 const mail = require("../config/mailer/mailer");
 
-exports.getAllQuestions = async () => {
-    return await Questions.find({ deleted: false });
+exports.getAllQuestions = async (body) => {
+    let defaultFilter = {
+        deleted: false
+    };
+    let filter = {};
+    if(body._id) {
+        filter = { ...filter, _id: body._id };
+    }
+    if(body.questionUserId) {
+        filter = { ...filter, questionUserId: body.questionUserId };
+    }
+    if(body.categoryId) {
+        filter = { ...filter, categoryId: body.categoryId };
+    }
+    if(body.languageId) {
+        filter = { ...filter, languageId: body.languageId };
+    }
+    if(body.posted) {
+        filter = { ...filter, posted: body.posted };
+    }
+    if(body.draft) {
+        filter = { ...filter, draft: body.draft };
+    }
+    filter = { ...filter, ...defaultFilter };
+    return await Questions.find(filter);
 };
 
 exports.addQuestion = async (newQuestion, useremail="sourabhsen201313@gmail.com") => {

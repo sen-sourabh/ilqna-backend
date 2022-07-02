@@ -1,7 +1,7 @@
 const questionServices = require("../../services/QuestionServices");
 
 exports.getAllQuestions = async (req, res, next) => {
-    const result = await questionServices.getAllQuestions();
+    const result = await questionServices.getAllQuestions(req.body);
     res.send(result);
 };
 
