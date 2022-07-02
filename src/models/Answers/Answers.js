@@ -6,18 +6,28 @@ const answersSchema = new Schema({
         required: true,
         type: String
     },
-    questionId: [{
+    questionId: {
         type: Schema.Types.ObjectId,
         ref: 'Questions'
-    }],
-    answerUserId: [{
+    },
+    answerUserId: {
         type: Schema.Types.ObjectId,
         ref: 'Users'
-    }],
+    },
     rating: {
         required: false,
         default: 0,
         type: Number
+    },
+    posted: {
+        required: true,
+        default: true,
+        type: Boolean
+    },
+    draft: {
+        required: true,
+        default: true,
+        type: Boolean
     },
     createdDate: {
         required: true,
@@ -38,6 +48,14 @@ const answersSchema = new Schema({
         required: true,
         default: true,
         type: Boolean
+    },
+    ipAddress: {
+        required: true,
+        type: String
+    },
+    location: {
+        required: true,
+        type: String
     }
 });
 
