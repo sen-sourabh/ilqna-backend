@@ -2,7 +2,10 @@ const Users = require("../models/Users/Users")
 const mail = require("../config/mailer/mailer")
 
 exports.getAllUsers = async () => {
-    return await Users.find({ deleted: false });
+    let filter = {
+        deleted: false
+    };
+    return await Users.find(filter);
 };
 
 exports.addUser = async (newUser) => {

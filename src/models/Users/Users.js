@@ -56,7 +56,8 @@ const usersSchema = new Schema({
     },
     lastLogin: {
         required: false,
-        type: Date
+        default: new Date().toISOString(),
+        type: String
     },
     ipAddress: {
         required: true,
