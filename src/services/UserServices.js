@@ -1,7 +1,13 @@
+var jwt = require('jsonwebtoken');
+var JWTCred = require('../dev.json');
 const Users = require("../models/Users/Users")
 const mail = require("../config/mailer/mailer")
 
-exports.getAllUsers = async () => {
+exports.getAllUsers = async (request) => {
+    console.log("req: ", request.headers['authorization'].replace('bearer ', ''))
+    let token = request.headers['authorization'].replace('bearer ', '');
+    const decode = jwt.verify(token, JWTCred.ACCESS_TOKEN_SECRET);
+    console.log("decode: ", decode);
     let filter = {
         deleted: false
     };

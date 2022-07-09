@@ -1,15 +1,11 @@
+var jwt = require('jsonwebtoken');
+var Cred = require('../dev.json');
 const Users = require("../models/Users/Users");
+const Validation = require("../functions/validation")
 
-isEmpty = (text) => {
-    if(!text || text === "" || text === '' || text === undefined || text === null || text.length < 0) {
-        return false;
-    } else {
-        return true;
-    }
-}
 
 exports.login = async (body) => {
-    if(body.hasOwnProperty("loginDate") && isEmpty(body.loginDate.toString().trim())) {
+    if(body.hasOwnProperty("loginDate") && Validation.isEmpty(body.loginDate.toString().trim())) {
         let userData = {
             email: body.email,
             password: body.password,
@@ -20,15 +16,17 @@ exports.login = async (body) => {
                 if(response[0].active) {
                     userData = {
                         lastLogin: body.loginDate,
-                        ipAddress: isEmpty(body.ipAddress) ? body.ipAddress : response[0].ipAddress,
-                        location: isEmpty(body.location) ? body.location : response[0].location
+                        ipAddress: Validation.isEmpty(body.ipAddress) ? body.ipAddress : response[0].ipAddress,
+                        location: Validation.isEmpty(body.location) ? body.location : response[0].location
                     };
                     await Users.findByIdAndUpdate(response[0]._id, userData);
+                    let userdata = JSON.parse(JSON.stringify(response[0]));
+                    userdata.token = jwt.sign(userdata, Cred.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
                     return [{
                         code: 200,
                         status: "OK",
                         message: "Login successfully.",
-                        data: response
+                        data: [userdata]
                     }];
                 } else {
                     return [{
