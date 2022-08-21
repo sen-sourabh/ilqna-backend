@@ -1,17 +1,33 @@
-var jwt = require('jsonwebtoken');
-var JWTCred = require('../dev.json');
+
 const Users = require("../models/Users/Users")
 const mail = require("../config/mailer/mailer")
 
 exports.getAllUsers = async (request) => {
-    console.log("req: ", request.headers['authorization'].replace('bearer ', ''))
-    let token = request.headers['authorization'].replace('bearer ', '');
-    const decode = jwt.verify(token, JWTCred.ACCESS_TOKEN_SECRET);
-    console.log("decode: ", decode);
-    let filter = {
-        deleted: false
-    };
-    return await Users.find(filter);
+    try {
+        let filter = {
+            deleted: false
+        };
+        return await Users.find(filter).then((response) => {
+            return [{
+                code: 200,
+                status: "OK",
+                message: "Got all users.",
+                data: response
+            }];
+        }).catch((error) => { 
+            return [{
+                code: 100,
+                status: "ERROR",
+                message: error.message
+            }];
+        });
+    } catch(error) {
+        return [{
+            code: 100,
+            status: "ERROR",
+            message: error.message
+        }];
+    }
 };
 
 exports.addUser = async (newUser) => {
@@ -47,11 +63,12 @@ exports.addUser = async (newUser) => {
                         }
                     }).catch((error) => { 
                         res = [{
-                            code: 100,
-                            status: "ERROR",
-                            message: error.message
+                            code: 200,
+                            status: "OK",
+                            message: "User added successfully. Looks like, We are facing some issue in mail sending. You can login with your registered email & password.",
+                            data: resp
                         }];
-                        return res; 
+                        return res;
                     });
                 }
             })
@@ -80,9 +97,10 @@ exports.updateUser = async (_id, editUser) => {
                 return res;
             }).catch((error) => {
                 res = [{
-                    code: 100,
-                    status: "ERROR",
-                    message: error.message
+                    code: 200,
+                    status: "OK",
+                    message: "User updated successfully. Looks like, We are not able to get the updated data due to internal network issue.",
+                    data: result
                 }];
                 return res;
             });

@@ -14,12 +14,12 @@ const categoryRouters = require("./routers/categories")
 const languageRouters = require("./routers/languages")
 
 //declared Routes
-app.use("/auth", loginRouters)
-app.use("/users", userRouters)
-app.use("/questions", questionRouters)
-app.use("/answers", answerRouters)
-app.use("/categories", categoryRouters)
-app.use("/languages", languageRouters)
+app.use("/ilqna/auth", loginRouters)
+app.use("/ilqna/users", userRouters)
+app.use("/ilqna/questions", questionRouters)
+app.use("/ilqna/answers", answerRouters)
+app.use("/ilqna/categories", categoryRouters)
+app.use("/ilqna/languages", languageRouters)
 
 
 app.listen(3000, () => {

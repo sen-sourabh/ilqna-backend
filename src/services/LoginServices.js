@@ -3,7 +3,6 @@ var Cred = require('../dev.json');
 const Users = require("../models/Users/Users");
 const Validation = require("../functions/validation")
 
-
 exports.login = async (body) => {
     if(body.hasOwnProperty("loginDate") && Validation.isEmpty(body.loginDate.toString().trim())) {
         let userData = {
@@ -21,7 +20,7 @@ exports.login = async (body) => {
                     };
                     await Users.findByIdAndUpdate(response[0]._id, userData);
                     let userdata = JSON.parse(JSON.stringify(response[0]));
-                    userdata.token = jwt.sign(userdata, Cred.ACCESS_TOKEN_SECRET, { expiresIn: '20m' });
+                    userdata.token = jwt.sign(userdata, Cred.ACCESS_TOKEN_SECRET, { expiresIn: '120m' });
                     return [{
                         code: 200,
                         status: "OK",
