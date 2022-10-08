@@ -3,7 +3,7 @@ var Cred = require('../dev.json');
 const Users = require("../models/Users/Users");
 const Validation = require("../functions/validation")
 
-exports.login = async (body) => {
+exports.login = async (request, body) => {
     if(body.hasOwnProperty("loginDate") && Validation.isEmpty(body.loginDate.toString().trim())) {
         let userData = {
             email: body.email,

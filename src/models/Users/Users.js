@@ -54,6 +54,11 @@ const usersSchema = new Schema({
         default: true,
         type: Boolean
     },
+    isLogin: {
+        required: true,
+        default: false,
+        type: Boolean
+    },
     lastLogin: {
         required: false,
         default: new Date().toISOString(),
