@@ -76,7 +76,7 @@ exports.addUser = async (newUser) => {
                 let res = [{
                     code: 100,
                     status: "ERROR",
-                    message: error.message
+                    message: error.message.includes('email_1 dup key') ? 'Email is already registered. Please try with different email.' : error.message
                 }];
                 return res;
             });

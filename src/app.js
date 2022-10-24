@@ -29,6 +29,6 @@ app.use("/ilqna/categories", categoryRouters)
 app.use("/ilqna/languages", languageRouters)
 
 
-app.listen(3000, () => {
-    console.log("Server is listening at port 3000...")
+app.listen(3001, () => {
+    console.log("Server is listening at port 3001...")
 });

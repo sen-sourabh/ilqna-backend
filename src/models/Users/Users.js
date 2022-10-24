@@ -5,6 +5,7 @@ const { Schema } = mongoose;
 const usersSchema = new Schema({
     username: {
         required: true,
+        default: null,
         type: String
     },
     email: {
@@ -19,14 +20,17 @@ const usersSchema = new Schema({
     },
     password: {
         required: true,
+        default: null,
         type: String
     },
     otp: {
         required: false,
+        default: null,
         type: Number
     },
     image: {
         required: false,
+        default: null,
         type: String
     },
     userType: {
@@ -65,11 +69,13 @@ const usersSchema = new Schema({
         type: String
     },
     ipAddress: {
-        required: true,
+        required: false,
+        default: null,
         type: String
     },
     location: {
-        required: true,
+        required: false,
+        default: null,
         type: String
     }
 });
