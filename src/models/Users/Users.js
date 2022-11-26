@@ -38,6 +38,16 @@ const usersSchema = new Schema({
         default: "USER",
         type: String
     },
+    company: {
+        required: false,
+        default: null,
+        type: String
+    },
+    designation: {
+        required: false,
+        default: null,
+        type: String
+    },
     createdDate: {
         required: true,
         default: new Date().toISOString(),

@@ -1,4 +1,5 @@
-
+var jwt = require('jsonwebtoken');
+var Cred = require('../dev.json');
 const Users = require("../models/Users/Users")
 const mail = require("../config/mailer/mailer")
 
@@ -88,21 +89,21 @@ exports.updateUser = async (_id, editUser) => {
         if(response._id) {
             let res;
             return await Users.find({ _id: response._id }).then((result) => {
-                res = [{
+                let userData = JSON.parse(JSON.stringify(result[0]));
+                userData.token = jwt.sign(userData, Cred.ACCESS_TOKEN_SECRET, { expiresIn: '120m' });
+                return [{
                     code: 200,
                     status: "OK",
                     message: "User updated successfully.",
-                    data: result
+                    data: [userData]
                 }];
-                return res;
             }).catch((error) => {
-                res = [{
+                return [{
                     code: 200,
                     status: "OK",
                     message: "User updated successfully. Looks like, We are not able to get the updated data due to internal network issue.",
-                    data: result
+                    data: [response]
                 }];
-                return res;
             });
         }
     }).catch((error) => {
