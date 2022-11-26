@@ -1,7 +1,7 @@
 const userServices = require("../../services/UserServices");
 
 exports.getAllUsers = async (req, res, next) => {
-    const result = await userServices.getAllUsers();
+    const result = await userServices.getAllUsers(req);
     res.send(result);
 };
 

@@ -1,8 +1,34 @@
+var jwt = require('jsonwebtoken');
+var Cred = require('../dev.json');
 const Users = require("../models/Users/Users")
 const mail = require("../config/mailer/mailer")
 
-exports.getAllUsers = async () => {
-    return await Users.find({ deleted: false });
+exports.getAllUsers = async (request) => {
+    try {
+        let filter = {
+            deleted: false
+        };
+        return await Users.find(filter).then((response) => {
+            return [{
+                code: 200,
+                status: "OK",
+                message: "Got all users.",
+                data: response
+            }];
+        }).catch((error) => { 
+            return [{
+                code: 100,
+                status: "ERROR",
+                message: error.message
+            }];
+        });
+    } catch(error) {
+        return [{
+            code: 100,
+            status: "ERROR",
+            message: error.message
+        }];
+    }
 };
 
 exports.addUser = async (newUser) => {
@@ -38,11 +64,12 @@ exports.addUser = async (newUser) => {
                         }
                     }).catch((error) => { 
                         res = [{
-                            code: 100,
-                            status: "ERROR",
-                            message: error.message
+                            code: 200,
+                            status: "OK",
+                            message: "User added successfully. Looks like, We are facing some issue in mail sending. You can login with your registered email & password.",
+                            data: resp
                         }];
-                        return res; 
+                        return res;
                     });
                 }
             })
@@ -50,7 +77,7 @@ exports.addUser = async (newUser) => {
                 let res = [{
                     code: 100,
                     status: "ERROR",
-                    message: error.message
+                    message: error.message.includes('email_1 dup key') ? 'Email is already registered. Please try with different email.' : error.message
                 }];
                 return res;
             });
@@ -62,20 +89,21 @@ exports.updateUser = async (_id, editUser) => {
         if(response._id) {
             let res;
             return await Users.find({ _id: response._id }).then((result) => {
-                res = [{
+                let userData = JSON.parse(JSON.stringify(result[0]));
+                userData.token = jwt.sign(userData, Cred.ACCESS_TOKEN_SECRET, { expiresIn: '120m' });
+                return [{
                     code: 200,
                     status: "OK",
                     message: "User updated successfully.",
-                    data: result
+                    data: [userData]
                 }];
-                return res;
             }).catch((error) => {
-                res = [{
-                    code: 100,
-                    status: "ERROR",
-                    message: error.message
+                return [{
+                    code: 200,
+                    status: "OK",
+                    message: "User updated successfully. Looks like, We are not able to get the updated data due to internal network issue.",
+                    data: [response]
                 }];
-                return res;
             });
         }
     }).catch((error) => {
