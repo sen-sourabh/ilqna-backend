@@ -110,7 +110,9 @@ exports.forgotPassword = async ({email}) => {
 }
 
 exports.resetPassword = async ({ email, newPassword }) => {
+    console.log("resetPassword: ", email, newPassword)
     return await Users.findOneAndUpdate({ email }, { password: newPassword }, { new: true }).then(async (response) => {
+        console.log("response: ", response)
         if(response._id) {
             let subject = "Update Password Confirmation";
             let body = `<div>
@@ -127,8 +129,8 @@ exports.resetPassword = async ({ email, newPassword }) => {
             }];
         } else {
             return [{
-                code: 200,
-                status: "OK",
+                code: 100,
+                status: "ERROR",
                 message: "Please try to login with updated password or reset again."
             }];
         }
@@ -155,18 +157,32 @@ exports.confirmOldPassword = async (email, password) => {
         });
 }
 
-exports.changePassword = async ({ email, oldPassword: password }) => {
-    return await confirmOldPassword(email, password).then(async (response) => {
+exports.changePassword = async ({ email, oldPassword, newPassword }) => {
+    return await this.confirmOldPassword(email, oldPassword).then(async (response) => {
         if(typeof response === 'boolean' && response) {
-            return await resetPassword(email, password);
+            return await Users.findOneAndUpdate({ email }, { password: newPassword }, { new: true }).then(async (response) => {
+                if(response._id) {
+                    let subject = "Update Password Confirmation";
+                    let body = `<div>
+                                    Welcome to Team Q&A, <br>
+                                    Thanks for joining us. We are sure, You will get your answers. <br><br>
+                                    Your password is updated successfully. Please try login with your new password.
+                                    <br><br>
+                                </div>`;
+                    await mail.sendMail(email, subject, body);
+                    return [{
+                        code: 200,
+                        status: "OK",
+                        message: "Your new password is updated. Please login with updated password."
+                    }];
+                }
+            });
         } else if(typeof response && !response) {
             return [{
-                code: 200,
-                status: "OK",
+                code: 100,
+                status: "ERROR",
                 message: "Old Password is invalid. Please enter your valid password."
             }];
-        } else {
-            return response;
         }
     }).catch((error) => {
         return [{
