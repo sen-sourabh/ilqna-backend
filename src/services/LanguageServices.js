@@ -1,7 +1,27 @@
 const Languages = require("../models/Languages/Languages");
 
 exports.getAllLanguages = async () => {
-    return await Languages.find({ deleted: false });
+    return await Languages.find({ active: true }).then((response) => {
+        let result = [];
+        response.map((lang) => {
+            result.push({
+                label: lang.languageName,
+                value: lang._id
+            });
+        });
+        return [{
+            code: 200,
+            status: "OK",
+            message: "Fetched all languages.",
+            data: result
+        }];
+    }).catch((error) => {
+        return [{
+            code: 100,
+            status: "ERROR",
+            message: error.message
+        }];
+    })
 };
 
 exports.addLanguage = async (newLanguage) => {
