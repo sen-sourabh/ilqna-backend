@@ -1,9 +1,10 @@
 const express = require("express")
 const answerController = require("../controllers/AnswerController/AnswerController")
+const AuthService = require("../services/Auth")
 const router = express.Router()
 
-router.get("/getAllAnswers", answerController.getAllAnswers)
-router.post("/addAnswer", answerController.addAnswer)
-router.put("/updateAnswer", answerController.updateAnswer)
+router.get("/getAllAnswers", AuthService.verfifyJWT, answerController.getAllAnswers)
+router.post("/addAnswer", AuthService.verfifyJWT, answerController.addAnswer)
+router.put("/updateAnswer", AuthService.verfifyJWT, answerController.updateAnswer)
 
 module.exports = router;

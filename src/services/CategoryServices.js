@@ -1,7 +1,27 @@
 const Categories = require("../models/Categories/Categories")
 
 exports.getAllCategories = async () => {
-    return await Categories.find({ deleted: false });
+    return await Categories.find({ active: true }).then((response) => {
+        let result = [];
+        response.map((cat) => {
+            result.push({
+                label: cat.categoryName,
+                value: cat._id
+            });
+        });
+        return [{
+            code: 200,
+            status: "OK",
+            message: "Fetched all categories.",
+            data: result
+        }];
+    }).catch((error) => {
+        return [{
+            code: 100,
+            status: "ERROR",
+            message: error.message
+        }];
+    })
 };
 
 exports.addCategory = async (newCategory) => {
