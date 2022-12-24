@@ -5,6 +5,11 @@ exports.getAllAnswers = async (req, res, next) => {
     res.send(result);
 };
 
+exports.getAllAnswersCountOfUser = async (req, res, next) => {
+    const result = await answerServices.getAllAnswersCountOfUser(req.body);
+    res.send(result);
+};
+
 exports.addAnswer = async (req, res, next) => {
     const result = await answerServices.addAnswer(req.body);
     res.send(result);
