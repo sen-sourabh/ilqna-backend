@@ -3,7 +3,7 @@ const questionServices = require("../services/QuestionServices");
 const Answers = require("../models/Answers/Answers");
 const mail = require("../config/mailer/mailer");
 
-exports.getAllAnswers = async (body) => {
+const getAnswersFilter = (body) => {
     let defaultFilter = {
         deleted: false
     };
@@ -14,8 +14,44 @@ exports.getAllAnswers = async (body) => {
     if(body.answerUserId) {
         filter = { ...filter, answerUserId: body.answerUserId };
     }
-    filter = { ...filter, ...defaultFilter };
-    return await Answers.find(filter);
+    return { ...filter, ...defaultFilter };
+}
+
+exports.getAllAnswers = async (body) => {
+    filter = getAnswersFilter(body);
+    return await Answers.find(filter).then((response) => {
+        let result = [];
+        return [{
+            code: 200,
+            status: "OK",
+            message: "Got all answers.",
+            data: result
+        }];
+    }).catch((error) => {
+        return [{
+            code: 100,
+            status: "ERROR",
+            message: error.message
+        }];
+    })
+};
+
+exports.getAllAnswersCountOfUser = async (body) => {
+    filter = getAnswersFilter(body);
+    return await Answers.find(filter).count().then((response) => {
+        return [{
+            code: 200,
+            status: "OK",
+            message: "Got all answers count by user.",
+            totalCount: response
+        }];
+    }).catch((error) => {
+        return [{
+            code: 100,
+            status: "ERROR",
+            message: error.message
+        }];
+    })
 };
 
 exports.addAnswer = async (newAnswer, useremail="sourabhsen201313@gmail.com") => {

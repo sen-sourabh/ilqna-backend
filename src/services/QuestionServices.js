@@ -1,7 +1,7 @@
 const Questions = require("../models/Questions/Questions");
 const mail = require("../config/mailer/mailer");
 
-exports.getAllQuestions = async (body) => {
+const getQuestionsFilter = (body) => {
     let defaultFilter = {
         deleted: false
     };
@@ -24,8 +24,44 @@ exports.getAllQuestions = async (body) => {
     if(body.draft) {
         filter = { ...filter, draft: body.draft };
     }
-    filter = { ...filter, ...defaultFilter };
-    return await Questions.find(filter);
+    return { ...filter, ...defaultFilter };
+}
+
+exports.getAllQuestions = async (body) => {
+    let filter = getQuestionsFilter(body);
+    return await Questions.find(filter).then((response) => {
+        let result = [];
+        return [{
+            code: 200,
+            status: "OK",
+            message: "Got all questions.",
+            data: result
+        }];
+    }).catch((error) => {
+        return [{
+            code: 100,
+            status: "ERROR",
+            message: error.message
+        }];
+    })
+};
+
+exports.getAllQuestionsCountOfUser = async (body) => {
+    let filter = getQuestionsFilter(body);
+    return await Questions.find(filter).count().then((response) => {
+        return [{
+            code: 200,
+            status: "OK",
+            message: "Got all questions count by user.",
+            totalCount: response
+        }];
+    }).catch((error) => {
+        return [{
+            code: 100,
+            status: "ERROR",
+            message: error.message
+        }];
+    })
 };
 
 exports.addQuestion = async (newQuestion, useremail="sourabhsen201313@gmail.com") => {
