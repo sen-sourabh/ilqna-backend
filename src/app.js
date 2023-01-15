@@ -20,7 +20,7 @@ const answerRouters = require("./routers/answers")
 const categoryRouters = require("./routers/categories")
 const languageRouters = require("./routers/languages")
 
-//declared Routes
+//declared Routes 
 app.use("/ilqna/auth", loginRouters)
 app.use("/ilqna/users", userRouters)
 app.use("/ilqna/questions", questionRouters)
