@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 // Function to generate OTP
 exports.generateOTP = () => {
     var string = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -8,3 +10,7 @@ exports.generateOTP = () => {
     }
     return OTP;
 }
+
+exports.stringToObjectId = (string_id) => {
+    return mongoose.Types.ObjectId(string_id)
+} 

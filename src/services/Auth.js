@@ -3,7 +3,12 @@ const JWT_CRED = require('../dev.json');
 
 exports.verfifyJWT = async (req, res, next) => {
     let token = req.headers['authorization'];
+    // console.log("req: ", req.body)
+    // console.log("req.header: ", req.headers)
+    // console.log("<br>");
+    // console.log("req: ", req.body)
     return await checkJWT(token).then((valid) => {
+        // console.log("valid: ", valid)
         if(!valid){
             res.send([{
                 code: 100,
@@ -12,10 +17,16 @@ exports.verfifyJWT = async (req, res, next) => {
             }]);
         } else {
             token = token.replace('Bearer ', '');
+        // console.log("token: ", token)
+
             try {
                 JWT.verify(token, JWT_CRED.ACCESS_TOKEN_SECRET);
+                //  console.log("JWT.verify(token, JWT_CRED.ACCESS_TOKEN_SECRET): ", JWT.verify(token, JWT_CRED.ACCESS_TOKEN_SECRET))
+
                 next();
             } catch(error) {
+        // console.log("error after try: ", error)
+
                 res.send([{
                     code: 100,
                     status: "ERROR",
@@ -24,6 +35,8 @@ exports.verfifyJWT = async (req, res, next) => {
             }
         }
     }).catch((error) => {
+        // console.log("error out: ", error.message)
+
         res.send([{
             code: 100,
             status: "ERROR",
