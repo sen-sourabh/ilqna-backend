@@ -5,6 +5,11 @@ exports.getAllQuestions = async (req, res, next) => {
     res.send(result);
 };
 
+exports.getAllAnswersByQuestionId = async (req, res, next) => {
+    const result = await questionServices.getAllAnswersByQuestionId(req.body);
+    res.send(result);
+}
+
 exports.getAllQuestionsCountOfUser = async (req, res, next) => {
     const result = await questionServices.getAllQuestionsCountOfUser(req.body);
     res.send(result);

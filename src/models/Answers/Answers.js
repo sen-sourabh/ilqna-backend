@@ -14,19 +14,19 @@ const answersSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Users'
     },
-    rating: {
+    upRating: {
         required: false,
         default: 0,
         type: Number
     },
-    posted: {
-        required: true,
-        default: true,
-        type: Boolean
+    downRating: {
+        required: false,
+        default: 0,
+        type: Number
     },
     draft: {
         required: true,
-        default: true,
+        default: false,
         type: Boolean
     },
     createdDate: {
