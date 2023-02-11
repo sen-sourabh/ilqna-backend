@@ -27,6 +27,18 @@ const questionsSchema = new Schema({
         default: true,
         type: Boolean
     },
+    status: {
+        required: true,
+        default: 'open',
+        type: String,
+        enum: ['open', 'close', 'hold']
+    },
+    priority: {
+        required: true,
+        default: 'normal',
+        type: String,
+        enum: ['normal', 'critical', 'high', 'medium']
+    },
     createdDate: {
         required: true,
         default: new Date().toISOString(),

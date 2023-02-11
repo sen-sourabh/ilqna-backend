@@ -19,6 +19,7 @@ const questionRouters = require("./routers/questions")
 const answerRouters = require("./routers/answers")
 const categoryRouters = require("./routers/categories")
 const languageRouters = require("./routers/languages")
+const ratingRouters = require("./routers/ratings");
 
 //declared Routes 
 app.use("/ilqna/auth", loginRouters)
@@ -27,6 +28,7 @@ app.use("/ilqna/questions", questionRouters)
 app.use("/ilqna/answers", answerRouters)
 app.use("/ilqna/categories", categoryRouters)
 app.use("/ilqna/languages", languageRouters)
+app.use("/ilqna/ratings", ratingRouters)
 
 
 app.listen(3001, () => {
