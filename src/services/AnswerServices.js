@@ -68,32 +68,13 @@ exports.addAnswer = async (newAnswer, useremail="sourabhsen201313@gmail.com") =>
                                 <b>Question: `+ questionRes.question +` <b><br>
                                 Answer: `+ response.answer +` <br>
                             </div>`;
-                return await mail.sendMail(useremail, subject, body).then((sentMail) => {
-                    if(sentMail.messageId) {
-                        res = [{
-                            code: 200,
-                            status: "OK",
-                            message: "Answer added successfully. You've received a confirmation email.",
-                            data: response
-                        }];
-                        return res;
-                    } else {
-                        res = [{
-                            code: 200,
-                            status: "OK",
-                            message: "Answer added successfully.",
-                            data: response
-                        }];
-                        return res;
-                    }
-                }).catch((error) => { 
-                    res = [{
-                        code: 100,
-                        status: "ERROR",
-                        message: error.message
-                    }];
-                    return res; 
-                });
+                // await mail.sendMail(useremail, subject, body)
+                return [{
+                    code: 200,
+                    status: "OK",
+                    message: "Answer updated successfully.",
+                    data: [response]
+                }];
             }
         }).catch((error) => { 
             let res = [{
@@ -122,32 +103,13 @@ exports.updateAnswer = async (_id, editAnswer, useremail="sourabhsen201313@gmail
                                         <b>Question: `+ questionRes.question +` <b><br>
                                         Answer: `+ response.answer +` <br>
                                     </div>`;
-                        return await mail.sendMail(useremail, subject, body).then((sentMail) => {
-                            if(sentMail.messageId) {
-                                res = [{
-                                    code: 200,
-                                    status: "OK",
-                                    message: "Answer updated successfully. You've received a confirmation email.",
-                                    data: result
-                                }];
-                                return res;
-                            } else {
-                                res = [{
-                                    code: 200,
-                                    status: "OK",
-                                    message: "Answer updated successfully.",
-                                    data: result
-                                }];
-                                return res;
-                            }
-                        }).catch((error) => { 
-                            res = [{
-                                code: 100,
-                                status: "ERROR",
-                                message: error.message
+                        await mail.sendMail(useremail, subject, body)
+                        return [{
+                                code: 200,
+                                status: "OK",
+                                message: "Answer updated successfully.",
+                                data: [response]
                             }];
-                            return res; 
-                        });
                     }
                 }).catch((error) => { 
                     res = [{
@@ -155,15 +117,15 @@ exports.updateAnswer = async (_id, editAnswer, useremail="sourabhsen201313@gmail
                         status: "ERROR",
                         message: error.message
                     }];
-                    return res;
+                    return res; 
                 });
             }
         }).catch((error) => { 
-            let res = [{
+            res = [{
                 code: 100,
                 status: "ERROR",
                 message: error.message
             }];
-            return res; 
+            return res;
         });
-};
+}

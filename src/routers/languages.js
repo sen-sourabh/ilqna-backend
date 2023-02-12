@@ -3,7 +3,7 @@ const languageController = require("../controllers/LanguageController/LanguageCo
 const AuthService = require("../services/Auth")
 const router = express.Router()
 
-router.get("/getAllLanguages", AuthService.verfifyJWT, languageController.getAllLanguages)
+router.get("/getAllLanguages", languageController.getAllLanguages)
 router.post("/addLanguage", AuthService.verfifyJWT, languageController.addLanguage)
 router.put("/updateLanguage", AuthService.verfifyJWT, languageController.updateLanguage)
 
