@@ -3,7 +3,7 @@ const categoryController = require("../controllers/CategoryController/CategoryCo
 const AuthService = require("../services/Auth")
 const router = express.Router()
 
-router.get("/getAllCategories", AuthService.verfifyJWT, categoryController.getAllCategories)
+router.get("/getAllCategories", categoryController.getAllCategories)
 router.post("/addCategory", AuthService.verfifyJWT, categoryController.addCategory)
 router.put("/updateCategory", AuthService.verfifyJWT, categoryController.updateCategory)
 
