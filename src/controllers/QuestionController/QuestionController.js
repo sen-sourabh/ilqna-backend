@@ -11,7 +11,7 @@ exports.getAllAnswersByQuestionId = async (req, res, next) => {
 }
 
 exports.getAllQuestionsCountOfUser = async (req, res, next) => {
-    const result = await questionServices.getAllQuestionsCountOfUser(req.body);
+    const result = await questionServices.getAllQuestionsCountOfUser(req.query);
     res.send(result);
 };
 
