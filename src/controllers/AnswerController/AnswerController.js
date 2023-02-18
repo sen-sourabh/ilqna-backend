@@ -6,7 +6,7 @@ exports.getAllAnswers = async (req, res, next) => {
 };
 
 exports.getAllAnswersCountOfUser = async (req, res, next) => {
-    const result = await answerServices.getAllAnswersCountOfUser(req.body);
+    const result = await answerServices.getAllAnswersCountOfUser(req.query);
     res.send(result);
 };
 

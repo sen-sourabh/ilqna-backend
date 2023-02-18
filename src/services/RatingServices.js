@@ -51,3 +51,7 @@ exports.addRating = async (body) => {
             return res; 
         });
 }
+
+exports.updateRating = async (body) => {
+    console.log("updateRating: ", body)
+}

@@ -1,12 +1,24 @@
 const Categories = require("../models/Categories/Categories")
 
+/** 
+ * @function
+ * _**getAllCategories**_
+ * 
+ * @argument
+ * Might be accept in future, Currently no arguments.
+ * 
+ * @description
+ * It will get you all categories from database those are active & not deleted by Admin.
+ *  
+*/
 exports.getAllCategories = async () => {
     return await Categories.find({ active: true }).then((response) => {
         let result = [];
         response.map((cat) => {
             result.push({
                 label: cat.categoryName,
-                value: cat._id
+                value: cat._id,
+                selected: false
             });
         });
         return [{
@@ -24,6 +36,20 @@ exports.getAllCategories = async () => {
     })
 };
 
+/** 
+ * @function
+ * _**addCategory**_
+ * 
+ * @argument
+ * Accepting new category body object.
+ * 
+ * @param
+ * categoryName String
+ * 
+ * @description
+ * Add new category.
+ *  
+*/
 exports.addCategory = async (newCategory) => {
     const category = await Categories.find({ categoryName: newCategory.categoryName });
     if(category.length === 0) {
@@ -55,6 +81,21 @@ exports.addCategory = async (newCategory) => {
     }
 };
 
+/** 
+ * @function
+ * _**updateCategory**_
+ * 
+ * @argument
+ * Accepting updated category name and id of existing category within the object.
+ * 
+ * @param
+ * `id` String/ObjectId
+ * `categoryName` String
+ * 
+ * @description
+ * Update existing category.
+ *  
+*/
 exports.updateCategory = async (_id, body) => {
     const category = await Categories.find({ categoryName: body.categoryName });
     if(category.length === 0) {

@@ -6,7 +6,8 @@ exports.getAllLanguages = async () => {
         response.map((lang) => {
             result.push({
                 label: lang.languageName,
-                value: lang._id
+                value: lang._id,
+                selected: false
             });
         });
         return [{

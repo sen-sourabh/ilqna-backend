@@ -21,6 +21,11 @@ exports.verfifyJWT = async (req, res, next) => {
 
             try {
                 JWT.verify(token, JWT_CRED.ACCESS_TOKEN_SECRET);
+                let user = JWT.decode(token, JWT_CRED.ACCESS_TOKEN_SECRET);
+                req.body = {
+                    ...req.body,
+                    user
+                }
                 //  console.log("JWT.verify(token, JWT_CRED.ACCESS_TOKEN_SECRET): ", JWT.verify(token, JWT_CRED.ACCESS_TOKEN_SECRET))
 
                 next();

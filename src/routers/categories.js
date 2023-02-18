@@ -4,7 +4,7 @@ const AuthService = require("../services/Auth")
 const router = express.Router()
 
 router.get("/getAllCategories", categoryController.getAllCategories)
-router.post("/addCategory", AuthService.verfifyJWT, categoryController.addCategory)
+router.post("/addCategory", categoryController.addCategory)
 router.put("/updateCategory", AuthService.verfifyJWT, categoryController.updateCategory)
 
 module.exports = router;
