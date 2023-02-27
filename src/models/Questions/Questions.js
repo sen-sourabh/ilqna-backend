@@ -22,6 +22,10 @@ const questionsSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Users'
     },
+    bookmarks: {
+        default: 0,
+        type: Number
+    },
     draft: {
         required: true,
         default: true,

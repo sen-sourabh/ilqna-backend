@@ -1,5 +1,6 @@
 const { mongoose } = require("mongoose");
 const questionServices = require("../services/QuestionServices");
+const ratingServices = require("../services/RatingServices");
 const Answers = require("../models/Answers/Answers");
 const mail = require("../config/mailer/mailer");
 const Rating = require("./RatingServices");
@@ -139,9 +140,9 @@ exports.updateAnswer = async (_id, body) => {
     let $set = {...body};
     return await Answers.findByIdAndUpdate({ _id }, { $set }, { upsert: true, new: true })
         .then(async (response) => {
-            if(typeof body.upRatingVal === 'boolean') {
-                await Rating.updateRating({ user, response });
-            }
+            // if(typeof body.upRatingVal === 'boolean') {
+            //     await ratingServices.updateRating({ user, answerId: response._id });
+            // }
             return [{
                     code: 200,
                     status: "OK",

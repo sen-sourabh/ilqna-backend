@@ -3,6 +3,6 @@ const ratingController = require("../controllers/RatingController/RatingControll
 const AuthService = require("../services/Auth")
 const router = express.Router()
 
-router.post("/addRating", AuthService.verfifyJWT, ratingController.addRating)
+router.post("/updateRating", AuthService.verfifyJWT, ratingController.updateRating)
 
 module.exports = router;

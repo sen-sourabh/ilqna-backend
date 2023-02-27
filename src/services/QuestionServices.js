@@ -77,6 +77,14 @@ exports.getAllQuestions = async (body) => {
     },
     {
       $lookup: {
+        from: "bookmarks",
+        localField: "_id",
+        foreignField: "questionId",
+        as: "total_bookmark",
+      },
+    },
+    {
+      $lookup: {
         from: "users",
         localField: "questionUserId",
         foreignField: "_id",
@@ -153,6 +161,7 @@ exports.getAllQuestions = async (body) => {
         "answers.upRating": 1,
         "answers.downRating": 1,
         "answers._id": 1,
+        "total_bookmark": 1
       },
     },
     {
@@ -190,6 +199,14 @@ exports.getAllAnswersByQuestionId = async (body) => {
     {
       $match: {
         ...filter,
+      },
+    },
+    {
+      $lookup: {
+        from: "bookmarks",
+        localField: "_id",
+        foreignField: "questionId",
+        as: "total_bookmark",
       },
     },
     {
@@ -297,6 +314,7 @@ exports.getAllAnswersByQuestionId = async (body) => {
         "languages._id": 1,
         "languages.languageName": 1,
         answers: 1,
+        total_bookmark: 1
       },
     },
     {

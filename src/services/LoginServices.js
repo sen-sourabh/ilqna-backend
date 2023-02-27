@@ -110,9 +110,7 @@ exports.forgotPassword = async ({email}) => {
 }
 
 exports.resetPassword = async ({ email, newPassword }) => {
-    console.log("resetPassword: ", email, newPassword)
     return await Users.findOneAndUpdate({ email }, { password: newPassword }, { new: true }).then(async (response) => {
-        console.log("response: ", response)
         if(response._id) {
             let subject = "Update Password Confirmation";
             let body = `<div>
