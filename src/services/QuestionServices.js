@@ -12,6 +12,19 @@ const getQuestionsFilter = (body) => {
   if (body._id) {
     filter = { ...filter, _id: COMMON.stringToObjectId(body._id) };
   }
+  if(body.questionId && body.questionId.length > 0) {
+    let $in = [];
+    body.questionId.map((quest) => {
+        $in = [...$in, quest]
+    })
+    let _id = {
+            $in
+        };
+    filter = {
+      ...filter,
+      _id,
+    };
+  }
   if (body.draft) {
     filter = { ...filter, draft: body.draft };
   }
@@ -64,6 +77,7 @@ const getQuestionsFilter = (body) => {
 
 exports.getAllQuestions = async (body) => {
   let filter = getQuestionsFilter(body);
+  // console.log("filter: ", filter);
   return await Questions.aggregate([
     {
       $sort: {
@@ -247,7 +261,7 @@ exports.getAllAnswersByQuestionId = async (body) => {
           {
             $match: {
               deleted: false,
-              active: true,
+              active: true
             },
           },
           {
