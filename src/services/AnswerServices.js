@@ -133,7 +133,7 @@ exports.addAnswer = async (newAnswer, useremail="sourabhsen201313@gmail.com") =>
 // }
 
 exports.updateAnswer = async (_id, body) => {
-    console.log("body: ", body)
+    // console.log("body: ", body)
     let user = { ...body.user };
     delete body._id;
     delete body.user;

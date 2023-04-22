@@ -1,5 +1,6 @@
 
 const Bookmarks = require("../models/Bookmarks/Bookmarks");
+const Questions = require("./QuestionServices");
 const mail = require("../config/mailer/mailer");
 const { stringToObjectId } = require("../functions/common");
 
@@ -58,4 +59,26 @@ exports.removeExistingBookmark = async (body) => {
                 message: error.message
             }]
         })
+}
+
+exports.getAllBookmarkQuestions = async (body) => {
+    return await Bookmarks.findOne({ bookmarkUserId: stringToObjectId(body.user._id) })
+        .then(async (bookmarkData) => {
+            // console.log("bookmarkData: ", bookmarkData);
+            delete body.user;
+            delete body.questionUserId;
+            let newBody = {
+                ...body,
+                questionId: bookmarkData.questionId
+            };
+            // console.log("newBody: ", newBody);
+            return await Questions.getAllQuestions(newBody);
+        })
+        .catch((error) => {
+            return [{
+                code: 100,
+                status: "ERROR",
+                message: error.message
+            }]
+        });
 }
