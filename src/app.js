@@ -1,15 +1,15 @@
 const express = require("express")
 const app = express();
 let cors = require('cors');
-// var corsOptions = {
-//   origin: 'http://localhost:3001',
-//   optionsSuccessStatus: 200
-// }
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200
+}
 const bodyParser = require("body-parser");
 const { connectDB } = require('./config/database/database');
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors(corsOptions));
 connectDB();
 
 //import Routes

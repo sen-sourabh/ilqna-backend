@@ -1,7 +1,8 @@
 var jwt = require('jsonwebtoken');
 var Cred = require('../dev.json');
 const Users = require("../models/Users/Users")
-const mail = require("../config/mailer/mailer")
+const mail = require("../config/mailer/mailer");
+const { getUsername } = require('../functions/common');
 
 exports.getAllUsers = async (request) => {
     try {
@@ -32,6 +33,7 @@ exports.getAllUsers = async (request) => {
 };
 
 exports.addUser = async (newUser) => {
+    getUsername(newUser);
     return await new Users(newUser).save()
             .then(async (resp) => {
                 let res;

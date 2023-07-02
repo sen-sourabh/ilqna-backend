@@ -13,4 +13,12 @@ exports.generateOTP = () => {
 
 exports.stringToObjectId = (string_id) => {
     return mongoose.Types.ObjectId(string_id)
-} 
+}
+
+//To generate Username If user not entered or provided
+exports.getUsername = (newUser) => {
+    if(!newUser.hasOwnProperty('username')) {
+        newUser.username = newUser.email.split('@')[0];
+    }
+    return newUser;
+}
