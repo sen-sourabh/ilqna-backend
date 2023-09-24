@@ -1,6 +1,6 @@
-const Questions = require("../models/Questions/Questions");
-const mail = require("../config/mailer/mailer");
-const COMMON = require("../functions/common");
+const Questions = require('../models/Questions/Questions');
+const mail = require('../config/mailer/mailer');
+const COMMON = require('../functions/common');
 
 const getQuestionsFilter = (body) => {
   let defaultFilter = {
@@ -12,14 +12,14 @@ const getQuestionsFilter = (body) => {
   if (body._id) {
     filter = { ...filter, _id: COMMON.stringToObjectId(body._id) };
   }
-  if(body.questionId && body.questionId.length > 0) {
+  if (body.questionId && body.questionId.length > 0) {
     let $in = [];
     body.questionId.map((quest) => {
-        $in = [...$in, quest]
-    })
+      $in = [...$in, quest];
+    });
     let _id = {
-            $in
-        };
+      $in,
+    };
     filter = {
       ...filter,
       _id,
@@ -39,21 +39,21 @@ const getQuestionsFilter = (body) => {
     delete defaultFilter.active;
     delete defaultFilter.draft;
   }
-  if(body.question) {
-    let question = { $regex: body.question, $options: "i" }
+  if (body.question) {
+    let question = { $regex: body.question, $options: 'i' };
     filter = {
-        ...filter,
-        question
+      ...filter,
+      question,
     };
   }
   if (body.categoryId && body.categoryId.length > 0) {
     let $in = [];
     body.categoryId.map((cat) => {
-        $in = [...$in, COMMON.stringToObjectId(cat)]
-    })
+      $in = [...$in, COMMON.stringToObjectId(cat)];
+    });
     let categoryId = {
-            $in
-        };
+      $in,
+    };
     filter = {
       ...filter,
       categoryId,
@@ -62,11 +62,11 @@ const getQuestionsFilter = (body) => {
   if (body.languageId && body.languageId.length > 0) {
     let $in = [];
     body.languageId.map((lang) => {
-        $in = [...$in, COMMON.stringToObjectId(lang)]
-    })
+      $in = [...$in, COMMON.stringToObjectId(lang)];
+    });
     let languageId = {
-            $in
-        };
+      $in,
+    };
     filter = {
       ...filter,
       languageId,
@@ -91,46 +91,46 @@ exports.getAllQuestions = async (body) => {
     },
     {
       $lookup: {
-        from: "bookmarks",
-        localField: "_id",
-        foreignField: "questionId",
-        as: "total_bookmark",
+        from: 'bookmarks',
+        localField: '_id',
+        foreignField: 'questionId',
+        as: 'total_bookmark',
       },
     },
     {
       $lookup: {
-        from: "users",
-        localField: "questionUserId",
-        foreignField: "_id",
-        as: "user",
+        from: 'users',
+        localField: 'questionUserId',
+        foreignField: '_id',
+        as: 'user',
       },
     },
     {
       $unwind: {
-        path: "$user",
+        path: '$user',
       },
     },
     {
       $lookup: {
-        from: "categories",
-        localField: "categoryId",
-        foreignField: "_id",
-        as: "categories",
+        from: 'categories',
+        localField: 'categoryId',
+        foreignField: '_id',
+        as: 'categories',
       },
     },
     {
       $lookup: {
-        from: "languages",
-        localField: "languageId",
-        foreignField: "_id",
-        as: "languages",
+        from: 'languages',
+        localField: 'languageId',
+        foreignField: '_id',
+        as: 'languages',
       },
     },
     {
       $lookup: {
-        from: "answers",
-        localField: "_id",
-        foreignField: "questionId",
+        from: 'answers',
+        localField: '_id',
+        foreignField: 'questionId',
         pipeline: [
           {
             $sort: {
@@ -141,12 +141,12 @@ exports.getAllQuestions = async (body) => {
             $limit: 1,
           },
         ],
-        as: "answers",
+        as: 'answers',
       },
     },
     {
       $unwind: {
-        path: "$answers",
+        path: '$answers',
         preserveNullAndEmptyArrays: true,
       },
     },
@@ -161,21 +161,21 @@ exports.getAllQuestions = async (body) => {
         active: 1,
         createdDate: 1,
         updatedDate: 1,
-        "user._id": 1,
-        "user.username": 1,
-        "user.email": 1,
-        "user.phone": 1,
-        "user.isLogin": 1,
-        "user.company": 1,
-        "user.designation": 1,
-        "categories._id": 1,
-        "categories.categoryName": 1,
-        "languages._id": 1,
-        "languages.languageName": 1,
-        "answers.upRating": 1,
-        "answers.downRating": 1,
-        "answers._id": 1,
-        "total_bookmark": 1
+        'user._id': 1,
+        'user.username': 1,
+        'user.email': 1,
+        'user.phone': 1,
+        'user.isLogin': 1,
+        'user.company': 1,
+        'user.designation': 1,
+        'categories._id': 1,
+        'categories.categoryName': 1,
+        'languages._id': 1,
+        'languages.languageName': 1,
+        'answers.upRating': 1,
+        'answers.downRating': 1,
+        'answers._id': 1,
+        total_bookmark: 1,
       },
     },
     {
@@ -189,8 +189,8 @@ exports.getAllQuestions = async (body) => {
       return [
         {
           code: 200,
-          status: "OK",
-          message: "Got all questions.",
+          status: 'OK',
+          message: 'Got all questions.',
           data: response,
           totalCount: response.length,
         },
@@ -200,7 +200,7 @@ exports.getAllQuestions = async (body) => {
       return [
         {
           code: 100,
-          status: "ERROR",
+          status: 'ERROR',
           message: error.message,
         },
       ];
@@ -217,51 +217,51 @@ exports.getAllAnswersByQuestionId = async (body) => {
     },
     {
       $lookup: {
-        from: "bookmarks",
-        localField: "_id",
-        foreignField: "questionId",
-        as: "total_bookmark",
+        from: 'bookmarks',
+        localField: '_id',
+        foreignField: 'questionId',
+        as: 'total_bookmark',
       },
     },
     {
       $lookup: {
-        from: "users",
-        localField: "questionUserId",
-        foreignField: "_id",
-        as: "user",
+        from: 'users',
+        localField: 'questionUserId',
+        foreignField: '_id',
+        as: 'user',
       },
     },
     {
       $unwind: {
-        path: "$user",
+        path: '$user',
       },
     },
     {
       $lookup: {
-        from: "categories",
-        localField: "categoryId",
-        foreignField: "_id",
-        as: "categories",
+        from: 'categories',
+        localField: 'categoryId',
+        foreignField: '_id',
+        as: 'categories',
       },
     },
     {
       $lookup: {
-        from: "languages",
-        localField: "languageId",
-        foreignField: "_id",
-        as: "languages",
+        from: 'languages',
+        localField: 'languageId',
+        foreignField: '_id',
+        as: 'languages',
       },
     },
     {
       $lookup: {
-        from: "answers",
-        localField: "_id",
-        foreignField: "questionId",
+        from: 'answers',
+        localField: '_id',
+        foreignField: 'questionId',
         pipeline: [
           {
             $match: {
               deleted: false,
-              active: true
+              active: true,
             },
           },
           {
@@ -271,15 +271,15 @@ exports.getAllAnswersByQuestionId = async (body) => {
           },
           {
             $lookup: {
-              from: "users",
-              localField: "answerUserId",
-              foreignField: "_id",
-              as: "answer_user",
+              from: 'users',
+              localField: 'answerUserId',
+              foreignField: '_id',
+              as: 'answer_user',
             },
           },
           {
             $unwind: {
-              path: "$answer_user",
+              path: '$answer_user',
               preserveNullAndEmptyArrays: true,
             },
           },
@@ -292,17 +292,17 @@ exports.getAllAnswersByQuestionId = async (body) => {
               updatedDate: 1,
               downRating: 1,
               upRating: 1,
-              "answer_user._id": 1,
-              "answer_user.username": 1,
-              "answer_user.email": 1,
-              "answer_user.phone": 1,
-              "answer_user.isLogin": 1,
-              "answer_user.company": 1,
-              "answer_user.designation": 1,
+              'answer_user._id': 1,
+              'answer_user.username': 1,
+              'answer_user.email': 1,
+              'answer_user.phone': 1,
+              'answer_user.isLogin': 1,
+              'answer_user.company': 1,
+              'answer_user.designation': 1,
             },
           },
         ],
-        as: "answers",
+        as: 'answers',
       },
     },
     {
@@ -316,19 +316,19 @@ exports.getAllAnswersByQuestionId = async (body) => {
         active: 1,
         createdDate: 1,
         updatedDate: 1,
-        "user._id": 1,
-        "user.username": 1,
-        "user.email": 1,
-        "user.phone": 1,
-        "user.isLogin": 1,
-        "user.company": 1,
-        "user.designation": 1,
-        "categories._id": 1,
-        "categories.categoryName": 1,
-        "languages._id": 1,
-        "languages.languageName": 1,
+        'user._id': 1,
+        'user.username': 1,
+        'user.email': 1,
+        'user.phone': 1,
+        'user.isLogin': 1,
+        'user.company': 1,
+        'user.designation': 1,
+        'categories._id': 1,
+        'categories.categoryName': 1,
+        'languages._id': 1,
+        'languages.languageName': 1,
         answers: 1,
-        total_bookmark: 1
+        total_bookmark: 1,
       },
     },
     {
@@ -342,8 +342,8 @@ exports.getAllAnswersByQuestionId = async (body) => {
       return [
         {
           code: 200,
-          status: "OK",
-          message: "Got all answers of question.",
+          status: 'OK',
+          message: 'Got all answers of question.',
           data: response,
           totalCount: response.length,
         },
@@ -353,7 +353,7 @@ exports.getAllAnswersByQuestionId = async (body) => {
       return [
         {
           code: 100,
-          status: "ERROR",
+          status: 'ERROR',
           message: error.message,
         },
       ];
@@ -368,8 +368,8 @@ exports.getAllQuestionsCountOfUser = async (query) => {
       return [
         {
           code: 200,
-          status: "OK",
-          message: "Got all questions count by user.",
+          status: 'OK',
+          message: 'Got all questions count by user.',
           totalCount: response,
         },
       ];
@@ -378,23 +378,20 @@ exports.getAllQuestionsCountOfUser = async (query) => {
       return [
         {
           code: 100,
-          status: "ERROR",
+          status: 'ERROR',
           message: error.message,
         },
       ];
     });
 };
 
-exports.addQuestion = async (
-  newQuestion,
-  useremail = "sourabhsen201313@gmail.com",
-) => {
+exports.addQuestion = async (newQuestion, useremail = 'sourabhsen201313@gmail.com') => {
   return await new Questions(newQuestion)
     .save()
     .then(async (response) => {
       let res;
       if (response._id) {
-        let subject = "Thanks for Asking";
+        let subject = 'Thanks for Asking';
         let body =
           `<div>
                                 Welcome to Q&A, <br>
@@ -417,8 +414,8 @@ exports.addQuestion = async (
         res = [
           {
             code: 200,
-            status: "OK",
-            message: "Question added successfully.",
+            status: 'OK',
+            message: 'Question added successfully.',
             data: response,
           },
         ];
@@ -438,7 +435,7 @@ exports.addQuestion = async (
       let res = [
         {
           code: 100,
-          status: "ERROR",
+          status: 'ERROR',
           message: error.message,
         },
       ];
@@ -457,8 +454,8 @@ exports.updateQuestion = async (_id, editQuestion) => {
             res = [
               {
                 code: 200,
-                status: "OK",
-                message: "Question updated successfully.",
+                status: 'OK',
+                message: 'Question updated successfully.',
                 data: result,
               },
             ];
@@ -468,7 +465,7 @@ exports.updateQuestion = async (_id, editQuestion) => {
             res = [
               {
                 code: 100,
-                status: "ERROR",
+                status: 'ERROR',
                 message: error.message,
               },
             ];
@@ -480,7 +477,7 @@ exports.updateQuestion = async (_id, editQuestion) => {
       let res = [
         {
           code: 100,
-          status: "ERROR",
+          status: 'ERROR',
           message: error.message,
         },
       ];

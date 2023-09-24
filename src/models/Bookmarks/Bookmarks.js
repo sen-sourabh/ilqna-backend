@@ -1,35 +1,37 @@
-const mongoose = require("mongoose")
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const bookmarksSchema = new Schema({
-    bookmarkUserId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Users'
+  bookmarkUserId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+  },
+  questionId: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Questions',
     },
-    questionId: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Questions'
-    }],
-    createdDate: {
-        required: true,
-        default: new Date().toISOString(),
-        type: Date
-    },
-    updatedDate: {
-        required: true,
-        default: new Date().toISOString(),
-        type: Date
-    },
-    deleted: {
-        required: true,
-        default: false,
-        type: Boolean
-    },
-    active: {
-        required: true,
-        default: true,
-        type: Boolean
-    }
+  ],
+  createdDate: {
+    required: true,
+    default: new Date().toISOString(),
+    type: Date,
+  },
+  updatedDate: {
+    required: true,
+    default: new Date().toISOString(),
+    type: Date,
+  },
+  deleted: {
+    required: true,
+    default: false,
+    type: Boolean,
+  },
+  active: {
+    required: true,
+    default: true,
+    type: Boolean,
+  },
 });
 
-module.exports = mongoose.model("Bookmarks", bookmarksSchema);
+module.exports = mongoose.model('Bookmarks', bookmarksSchema);
