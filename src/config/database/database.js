@@ -1,8 +1,9 @@
 const { mongoose } = require('mongoose');
+const { MONGO_URI } = require('../../dev.json');
 
 exports.connectDB = async () => {
   await mongoose
-    .connect('mongodb://0.0.0.0:27017/ilqna_dev_11_06_2022', {
+    .connect(MONGO_URI, {
       // useNewUrlParser: true,
       // useCreateIndex: true,
       // useFindAndModify: false

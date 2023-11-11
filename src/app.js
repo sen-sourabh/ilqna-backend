@@ -32,6 +32,6 @@ app.use('/ilqna/languages', languageRouters);
 app.use('/ilqna/ratings', ratingRouters);
 app.use('/ilqna/bookmarks', bookmarkRouters);
 
-app.listen(3001, () => {
+app.listen(3000, () => {
   console.log('Server is listening at port 3001...');
 });
