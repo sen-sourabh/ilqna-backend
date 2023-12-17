@@ -5,6 +5,11 @@ exports.getAllUsers = async (req, res, next) => {
   res.send(result);
 };
 
+exports.getUser = async (req, res, next) => {
+  const result = await userServices.getUser(req.params);
+  res.send(result);
+};
+
 exports.addUser = async (req, res, next) => {
   const result = await userServices.addUser(req.body);
   res.send(result);

@@ -156,3 +156,46 @@ exports.updateUser = async (_id, editUser) => {
       return res;
     });
 };
+
+exports.getUser = async (query) => {
+  try {
+    return await Users.findById(query)
+      .then((response) => {
+        if (!response) {
+          return [
+            {
+              code: 404,
+              status: 'ERROR',
+              message: 'Not Found',
+              data: response,
+            },
+          ];
+        }
+        return [
+          {
+            code: 200,
+            status: 'OK',
+            message: 'Get user.',
+            data: response,
+          },
+        ];
+      })
+      .catch((error) => {
+        return [
+          {
+            code: 100,
+            status: 'ERROR',
+            message: error.message,
+          },
+        ];
+      });
+  } catch (error) {
+    return [
+      {
+        code: 100,
+        status: 'ERROR',
+        message: error.message,
+      },
+    ];
+  }
+};
