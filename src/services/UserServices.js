@@ -9,26 +9,15 @@ exports.getAllUsers = async (request) => {
     let filter = {
       deleted: false,
     };
-    return await Users.find(filter)
-      .then((response) => {
-        return [
-          {
-            code: 200,
-            status: 'OK',
-            message: 'Got all users.',
-            data: response,
-          },
-        ];
-      })
-      .catch((error) => {
-        return [
-          {
-            code: 100,
-            status: 'ERROR',
-            message: error.message,
-          },
-        ];
-      });
+    const response = await Users.find(filter);
+    return [
+      {
+        code: 200,
+        status: 'OK',
+        message: 'Got all users.',
+        data: response,
+      },
+    ];
   } catch (error) {
     return [
       {
