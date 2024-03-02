@@ -22,3 +22,19 @@ exports.getUsername = (newUser) => {
   }
   return newUser;
 };
+
+//Helper to calculate ratings and update upRating and down Ratings within the answer's object
+exports.calculateRatings = (response) => {
+  return [
+    {
+      ...response[0],
+      answers: (response[0]?.answers || []).map((ans) => ({
+        ...ans,
+        upRating:
+          ans?.answer_ratings?.filter((rateData) => rateData?.ratingType === 'up').length || 0,
+        downRating:
+          ans?.answer_ratings?.filter((rateData) => rateData?.ratingType === 'down').length || 0,
+      })),
+    },
+  ];
+};

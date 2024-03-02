@@ -80,16 +80,28 @@ exports.removeExistingBookmark = async (body) => {
 };
 
 exports.getAllBookmarkQuestions = async (body) => {
-  return await Bookmarks.findOne({ bookmarkUserId: stringToObjectId(body.user._id) })
+  return await Bookmarks.findOne({
+    bookmarkUserId: stringToObjectId(body.user._id),
+    questionId: { $exists: true, $ne: [] },
+  })
     .then(async (bookmarkData) => {
-      // console.log("bookmarkData: ", bookmarkData);
+      if (!bookmarkData) {
+        return [
+          {
+            code: 200,
+            status: 'OK',
+            message: 'Got all questions.',
+            data: [],
+            totalCount: 0,
+          },
+        ];
+      }
       delete body.user;
       delete body.questionUserId;
       let newBody = {
         ...body,
         questionId: bookmarkData.questionId,
       };
-      // console.log("newBody: ", newBody);
       return await Questions.getAllQuestions(newBody);
     })
     .catch((error) => {

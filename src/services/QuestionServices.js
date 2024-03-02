@@ -77,7 +77,6 @@ const getQuestionsFilter = (body) => {
 
 exports.getAllQuestions = async (body) => {
   let filter = getQuestionsFilter(body);
-  // console.log("filter: ", filter);
   return await Questions.aggregate([
     {
       $sort: {
@@ -265,11 +264,6 @@ exports.getAllAnswersByQuestionId = async (body) => {
             },
           },
           {
-            $sort: {
-              upRating: -1,
-            },
-          },
-          {
             $lookup: {
               from: 'users',
               localField: 'answerUserId',
@@ -281,6 +275,14 @@ exports.getAllAnswersByQuestionId = async (body) => {
             $unwind: {
               path: '$answer_user',
               preserveNullAndEmptyArrays: true,
+            },
+          },
+          {
+            $lookup: {
+              from: 'ratings',
+              localField: '_id',
+              foreignField: 'answerId',
+              as: 'answer_ratings',
             },
           },
           {
@@ -299,6 +301,7 @@ exports.getAllAnswersByQuestionId = async (body) => {
               'answer_user.isLogin': 1,
               'answer_user.company': 1,
               'answer_user.designation': 1,
+              answer_ratings: 1,
             },
           },
         ],
@@ -344,7 +347,7 @@ exports.getAllAnswersByQuestionId = async (body) => {
           code: 200,
           status: 'OK',
           message: 'Got all answers of question.',
-          data: response,
+          data: COMMON.calculateRatings(response),
           totalCount: response.length,
         },
       ];
