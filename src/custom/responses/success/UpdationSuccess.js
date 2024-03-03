@@ -3,7 +3,7 @@ class UpdationSuccess {
     const currentDate = new Date().toISOString();
     this.response = {
       message,
-      success: 'Updated',
+      status: 'SUCCESS',
       statusCode: 201,
       createdDate: currentDate,
       data,

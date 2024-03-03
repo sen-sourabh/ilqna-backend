@@ -3,7 +3,7 @@ class GetSuccess {
     const currentDate = new Date().toISOString();
     this.response = {
       message,
-      success: 'Member',
+      status: 'SUCCESS',
       statusCode: 200,
       createdDate: currentDate,
       data,

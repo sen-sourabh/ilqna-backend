@@ -3,7 +3,7 @@ class CreationSuccess {
     const currentDate = new Date().toISOString();
     this.response = {
       message,
-      success: 'Created',
+      status: 'SUCCESS',
       statusCode: 201,
       createdDate: currentDate,
       data,

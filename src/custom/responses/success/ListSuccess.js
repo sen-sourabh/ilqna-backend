@@ -3,7 +3,7 @@ class ListSuccess {
     const currentDate = new Date().toISOString();
     this.response = {
       message,
-      success: 'Collection',
+      status: 'SUCCESS',
       statusCode: 200,
       createdDate: currentDate,
       data,
