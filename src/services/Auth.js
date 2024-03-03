@@ -12,10 +12,8 @@ exports.verfifyJWT = async (req, res, next) => {
     .then((valid) => {
       // console.log("valid: ", valid)
       if (!valid) {
-        res.send(
-          new BadRequestException(
-            `Authorization is compulsory for this request. Token is not received within the request. Please add valid token.`,
-          ),
+        throw new BadRequestException(
+          `Authorization is compulsory for this request. Token is not received within the request. Please add valid token.`,
         );
       } else {
         token = token.replace('Bearer ', '');
@@ -34,14 +32,14 @@ exports.verfifyJWT = async (req, res, next) => {
         } catch (error) {
           // console.log("error after try: ", error)
 
-          res.send(new UnauthorizedException(error.message));
+          throw new UnauthorizedException(error.message);
         }
       }
     })
     .catch((error) => {
       // console.log("error out: ", error.message)
 
-      res.send(new UnauthorizedException(error.message));
+      throw new UnauthorizedException(error.message);
     });
 };
 
