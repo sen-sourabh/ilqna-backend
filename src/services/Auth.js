@@ -1,5 +1,6 @@
 const JWT = require('jsonwebtoken');
 const JWT_CRED = require('../dev.json');
+const { BadRequestException, UnauthorizedException } = require('@nestjs/common');
 
 exports.verfifyJWT = async (req, res, next) => {
   let token = req.headers['authorization'];
@@ -11,14 +12,11 @@ exports.verfifyJWT = async (req, res, next) => {
     .then((valid) => {
       // console.log("valid: ", valid)
       if (!valid) {
-        res.send([
-          {
-            code: 100,
-            status: 'ERROR',
-            message:
-              'Authorization is compulsory for this request. Token is not received within the request. Please add valid token.',
-          },
-        ]);
+        res.send(
+          new BadRequestException(
+            `Authorization is compulsory for this request. Token is not received within the request. Please add valid token.`,
+          ),
+        );
       } else {
         token = token.replace('Bearer ', '');
         // console.log("token: ", token)
@@ -36,26 +34,14 @@ exports.verfifyJWT = async (req, res, next) => {
         } catch (error) {
           // console.log("error after try: ", error)
 
-          res.send([
-            {
-              code: 100,
-              status: 'ERROR',
-              message: error.message,
-            },
-          ]);
+          res.send(new UnauthorizedException(error.message));
         }
       }
     })
     .catch((error) => {
       // console.log("error out: ", error.message)
 
-      res.send([
-        {
-          code: 100,
-          status: 'ERROR',
-          message: error.message,
-        },
-      ]);
+      res.send(new UnauthorizedException(error.message));
     });
 };
 

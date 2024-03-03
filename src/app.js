@@ -1,3 +1,4 @@
+const { PORT } = require('./dev.json');
 const express = require('express');
 const app = express();
 let cors = require('cors');
@@ -32,6 +33,6 @@ app.use('/ilqna/languages', languageRouters);
 app.use('/ilqna/ratings', ratingRouters);
 app.use('/ilqna/bookmarks', bookmarkRouters);
 
-app.listen(3000, () => {
-  console.log('Server is listening at port 3000...');
+app.listen(PORT, () => {
+  console.log(`Server is listening at port ${PORT}...`);
 });
