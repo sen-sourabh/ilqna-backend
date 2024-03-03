@@ -4,11 +4,11 @@ class UpdationSuccess {
     this.response = {
       message,
       status: 'Updated',
-      statusCode: 201,
+      statusCode: 200,
       createdDate: currentDate,
       data,
     };
-    this.status = 201;
+    this.status = 200;
     this.options = {};
     this.message = message;
     this.name = 'UpdationSuccess';
