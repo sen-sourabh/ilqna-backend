@@ -1,0 +1,7 @@
+{
+  "ENV": "PROD",
+  "PORT": "3000",
+  "MONGO_URI": "mongodb+srv://sourabhsen201313:zmj7JrzaR7m3XEWj@crudnest.qr3dxz8.mongodb.net/team_qna",
+  "MONGO_URI_LOCAL": "mongodb://0.0.0.0:27017/ilqna_dev_11_06_2022",
+  "ACCESS_TOKEN_SECRET": "fe6b7898ed431d8c7cf02245d22f236a4da9ab46c2a4a2e6fe9d0b72c3e51da46aece4213e5f62139d690fed9c246a67e34d9b9d429c5a1716496af6436bbf94"
+}

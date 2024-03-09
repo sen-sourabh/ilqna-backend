@@ -1,10 +1,17 @@
-const { mongoose } = require("mongoose")
-mongoose.connect("mongodb://localhost:27017/ilqna_dev_11_06_2022", (err) => {
-    if(err) 
-        console.log("Error from Database connectivity: ", err)
-    else 
-        console.log("MongoDb Connected.");
-})
+const { mongoose } = require('mongoose');
+const { MONGO_URI } = require('../../dev.json');
 
-
-module.exports = mongoose
+exports.connectDB = async () => {
+  await mongoose
+    .connect(MONGO_URI, {
+      // useNewUrlParser: true,
+      // useCreateIndex: true,
+      // useFindAndModify: false
+    })
+    .then(() => {
+      console.log('MongoDb Connected!');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

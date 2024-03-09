@@ -1,60 +1,93 @@
-const mongoose = require("mongoose")
-const { Schema } = mongoose
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+// const { UserType } = require("./userEnum")
 
 const usersSchema = new Schema({
-    name: {
-        required: true,
-        type: String
-    },
-    email: {
-        required: true,
-        unique: true,
-        type: String
-    },
-    password: {
-        required: true,
-        type: String
-    },
-    image: {
-        required: false,
-        type: String
-    },
-    userType: {
-        required: true,
-        type: String
-    },
-    createdDate: {
-        required: true,
-        default: new Date().toISOString(),
-        type: Date
-    },
-    updatedDate: {
-        required: true,
-        default: new Date().toISOString(),
-        type: Date
-    },
-    deleted: {
-        required: true,
-        default: false,
-        type: Boolean
-    },
-    active: {
-        required: true,
-        default: true,
-        type: Boolean
-    },
-    lastLogin: {
-        required: false,
-        type: Date
-    },
-    ipAddress: {
-        required: true,
-        type: String
-    },
-    location: {
-        required: true,
-        type: String
-    }
+  username: {
+    required: true,
+    default: null,
+    type: String,
+  },
+  email: {
+    required: true,
+    unique: true,
+    type: String,
+  },
+  phone: {
+    required: false,
+    unique: true,
+    type: Number,
+  },
+  password: {
+    required: true,
+    default: null,
+    type: String,
+  },
+  otp: {
+    required: false,
+    default: null,
+    type: Number,
+  },
+  image: {
+    required: false,
+    default: null,
+    type: String,
+  },
+  userType: {
+    required: true,
+    default: 'USER',
+    type: String,
+  },
+  company: {
+    required: false,
+    default: null,
+    type: String,
+  },
+  designation: {
+    required: false,
+    default: null,
+    type: String,
+  },
+  createdDate: {
+    required: true,
+    default: new Date().toISOString(),
+    type: Date,
+  },
+  updatedDate: {
+    required: true,
+    default: new Date().toISOString(),
+    type: Date,
+  },
+  deleted: {
+    required: true,
+    default: false,
+    type: Boolean,
+  },
+  active: {
+    required: true,
+    default: true,
+    type: Boolean,
+  },
+  isLogin: {
+    required: true,
+    default: false,
+    type: Boolean,
+  },
+  lastLogin: {
+    required: false,
+    default: new Date().toISOString(),
+    type: String,
+  },
+  ipAddress: {
+    required: false,
+    default: null,
+    type: String,
+  },
+  location: {
+    required: false,
+    default: null,
+    type: String,
+  },
 });
 
-module.exports = mongoose.model("Users", usersSchema);
+module.exports = mongoose.model('Users', usersSchema);
