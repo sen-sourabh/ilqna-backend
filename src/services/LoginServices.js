@@ -4,9 +4,17 @@ const Users = require('../models/Users/Users');
 const Validation = require('../functions/validation');
 const functions = require('../functions/common');
 const mail = require('../config/mailer/mailer');
+const {
+  BadRequestException,
+  ConflictException,
+  UnauthorizedException,
+  ForbiddenException,
+} = require('@nestjs/common');
 
-exports.login = async (request, body) => {
+exports.login = async (body) => {
+  console.log('body: ', body);
   if (body.hasOwnProperty('loginDate') && Validation.isEmpty(body.loginDate.toString().trim())) {
+    console.log('Here');
     let userData = {
       email: body.email,
       password: body.password,
@@ -35,42 +43,21 @@ exports.login = async (request, body) => {
               },
             ];
           } else {
-            return [
-              {
-                code: 300,
-                status: 'OK',
-                message:
-                  'Login failed. This user is inactive. Please contact with administrator to access the account.',
-              },
-            ];
+            return new ForbiddenException(
+              `Login failed. This user is inactive. Please contact with administrator to access the account.`,
+            );
           }
         } else {
-          return [
-            {
-              code: 300,
-              status: 'OK',
-              message: 'Login failed. The entered email or password is invalid.',
-            },
-          ];
+          return new UnauthorizedException(
+            `Login failed. The entered email or password is invalid.`,
+          );
         }
       })
       .catch((error) => {
-        return [
-          {
-            code: 100,
-            status: 'ERROR',
-            message: error.message,
-          },
-        ];
+        return new ConflictException(`ERROR: ${error.message}`);
       });
   } else {
-    return [
-      {
-        code: 100,
-        status: 'ERROR',
-        message: 'Current date is required.',
-      },
-    ];
+    return new BadRequestException(`Current date is required.`);
   }
 };
 

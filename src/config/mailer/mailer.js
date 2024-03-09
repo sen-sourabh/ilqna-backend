@@ -6,8 +6,8 @@ exports.sendMail = async (useremail, subject, body) => {
     host: 'smtp.ethereal.email',
     port: 587,
     auth: {
-      user: 'torey.mckenzie@ethereal.email',
-      pass: 'eQju5T5CEV7q8p6ebv',
+      user: 'verlie.gutkowski59@ethereal.email',
+      pass: '8ZrFHa4vjbFnB8BPC4',
     },
   });
   let info = await transporter.sendMail({
